@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Nuevo pedido</title>
+<link rel="stylesheet" th:href="@{/css/estilos.css}"></head>
+<body>
+<nav th:replace="~{menu :: menu}"></nav>
+<main>
+<h2>Registrar pedido</h2>
+<form th:action="@{/pedidos/guardar}" th:object="${pedido}" method="post">
+<label>Cliente: </label>
+<input type="text" th:field="*{cliente}" required/>
+<table id="tabla-detalles">
+<thead><tr><th>Producto</th><th>Cantidad (kg)</th><th></th></tr></thead>
+<tbody>
+<tr th:each="detalle, iter : *{detalles}">
+<td><input th:field="*{detalles[__${iter.index}__].producto}" required/></td>
+<td><input th:field="*{detalles[__${iter.index}__].cantidad}" type="number" min="1" required/></td>
+<td><button type="button" class="secundario" onclick="eliminarFila(this)">Eliminar</button></td>
+</tr>
+</tbody>
+</table>
+<button type="button" class="secundario" onclick="agregarProducto()">Agregar producto</button>
+<button type="submit">Guardar pedido</button>
+</form>
+</main>
+<script th:src="@{/js/pedido.js}"></script>
+</body>
+</html>
